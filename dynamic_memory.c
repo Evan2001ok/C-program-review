@@ -1,3 +1,7 @@
+//author: yifan zhu
+//这是一个复习练习，复习c代码中相关结构体与几个常用数组相关的常用函数
+//This is a review exercise to review the common functions related to the relevant structures and several common arrays in C code
+
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
