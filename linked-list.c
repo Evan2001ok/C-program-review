@@ -3,70 +3,77 @@
 //This is a linked-list practice,include functions of how create linked-list and how output linked-list
 
 #include <stdio.h>
-#include <malloc.h>
+#include <malloc.h>// malloc()
 #include <string.h>
-#include <stdlib.h>
+#include <stdlib.h>// exit(-1)
 
-typedef struct Node
+//定义结构体
+typedef struct node
 {
-    int data;
-    struct Node * pNext;
-}NODE, *PNODE;
+    int data;//data
+    struct node * pnext;//linked-list pointer
+}node, *pnode;
 
-PNODE create_list(void);
-void traverse_list(pHead);
+pnode linked_list_create(void); // need return a address so need use pnode(struct node*)
+void linked_list_output(pnode phead); // need output linked-list data follow the order
+
 int main(void)
 {
-    PNODE pHead = NULL;//PNODE pHead = sturct Node * pHead
-    pHead = create_list();
-    traverse_list(pHead);// output linked-list
-
+    pnode phead = NULL;
+    phead = linked_list_create();//function will return a phead address = phead
+    linked_list_output(phead);
     return 0;
 }
 
-PNODE create_list(void)
+pnode linked_list_create(void)// create a linked_list need user input a list length
 {
     int len;
     int value;
 
-    //create a head and tail then follow len create linked-list
-    PNODE pHead = (PNODE)malloc(sizeof(PNODE));
-    if (pHead == NULL)
+    //create phead of linked-list
+    pnode phead = NULL;//initialize
+    phead = (pnode)malloc(sizeof(node));
+    if (phead == NULL)
     {
-        printf("error:分配错误");
+        printf("error,fail to append");
         exit(-1);
     }
-    PNODE pTail = pHead;
-    pHead->pNext = NULL;
+    //create a tail of linked-list
+    pnode ptail = phead;
+    ptail->pnext = NULL;
 
-    printf("please input length of linked-list: ");
-    scanf("%d\n",&len);
+
+    printf("please input a length of linked-list: ");
+    scanf("%d",&len);
     for (int i = 0; i < len; i++)
     {
-        printf("please input %d of value\n", i+1);
+        printf("please input the %d time of value: ", i+1);// because nature number of times is i+1
         scanf("%d", &value);
-
-        PNODE pNew = (PNODE)malloc(sizeof(PNODE));
-        if (pNew == NULL)
+        
+        //create a pnew node
+        //data strcture likes:     phead -> ptail -> pnew
+        pnode pnew = (pnode)malloc(sizeof(pnode));
+        if (pnew == NULL)
         {
-            printf("error:分配错误");
+            printf("error,fail to append");
             exit(-1);
         }
-        pNew->data = value;
-        pTail->pNext = pNew;
-        pNew->pNext = NULL;
-        pTail = pNew;
+        //shows how append pnew node to linked-list
+        pnew->data = value;
+        ptail->pnext = pnew;
+        pnew->pnext = NULL;
+        ptail = pnew;
     }
-    return pHead;
+    return phead;
 }
 
-void traverse_list(PNODE pHead)
+void linked_list_output(pnode phead)
 {
-    PNODE p = pHead->pNext;
+    pnode p = phead->pnext;
     while (p != NULL)
     {
-        printf("%d \n",p->data);
-        p = p->pNext; //p++
+        printf("%d \n", p->data);
+        p = p->pnext;// p++
     }
     
 }
