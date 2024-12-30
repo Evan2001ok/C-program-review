@@ -1,3 +1,7 @@
+//author: yifan zhu
+//这是一个指针链表练习，涉及如何创建一个链表和输出链表
+//This is a linked-list practice,include functions of how create linked-list and how output linked-list
+
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
