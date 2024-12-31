@@ -16,23 +16,31 @@ typedef struct node
 
 
 pnode linked_list_create(void); // need return a address so need use pnode(struct node*)
-void linked_list_output(pnode phead); // need output linked-list data follow the order
-bool is_empty(pnode phead); // check linked-list is empty of not by check next node of phead
-int length_list(pnode phead); 
+void linked_list_output(pnode); // need output linked-list data follow the order
+bool is_empty(pnode); // check linked-list is empty of not by check next node of phead
+int length_list(pnode); 
+void sort_list(pnode);
 bool insert_list(pnode, int, int);// insert value to linked-list
 bool delete_list(pnode, int, int*);// delete value of linked-list, the third value can output which value be deleted
-void sort_list(pnode);
+
+
 
 int main(void)
 {
     pnode phead = NULL;
+    int value;
     phead = linked_list_create();//function will return a phead address = phead
-    if (is_empty(phead))
-        printf("linked-list is  empty\n");
-    else
-        printf("linked-list is not empty\n");
-    sort_list(phead);
+    // if (is_empty(phead))
+    //     printf("linked-list is  empty\n");
+    // else
+    //     printf("linked-list is not empty\n");
+    //sort_list(phead);
     length_list(phead);
+    //insert_list(phead, 3, 33);
+    if (delete_list(phead, 4, &value))
+        printf("delete successful, value is %d\n", value);
+    else
+        printf("delete unsucessful, value is unvaild");
     linked_list_output(phead);
     return 0;
 }
@@ -64,7 +72,7 @@ pnode linked_list_create(void)// create a linked_list need user input a list len
         
         //create a pnew node
         //data strcture likes:     phead -> ptail -> pnew
-        pnode pnew = (pnode)malloc(sizeof(pnode));
+        pnode pnew = (pnode)malloc(sizeof(node));
         if (pnew == NULL)
         {
             printf("error,fail to append");
@@ -132,4 +140,55 @@ void sort_list(pnode phead)// linked-list sort function
         
     }
     return;
+}
+
+bool insert_list(pnode phead, int pos, int value)
+{
+    int i = 0; //counter
+    pnode p = phead; // define a phead as p（定义头结点）
+
+    while(NULL != p && i < pos-1)
+    {
+        p = p->pnext;
+        ++i;
+    }
+    if (i > pos-1 || NULL == p)
+    {
+        return false;
+    }
+    //insert logic of linked-list    
+    pnode pnew = (pnode)malloc(sizeof(node));
+    if (pnew == NULL)
+    {
+        printf("error, assign error");
+        exit(-1);
+    }
+    pnew->data = value; // data structure: phead as p -> q-> pnew
+    pnode q = p->pnext;
+    p->pnext = pnew;
+    pnew->pnext = q;
+    return true;
+}
+
+bool delete_list(pnode phead, int pos, int* value)
+{
+    int i = 0; //counter
+    pnode p = phead; // define a phead as p（定义头结点）
+
+    while(NULL != p->pnext && i < pos-1)
+    {
+        p = p->pnext;
+        ++i;
+    }
+    if (i > pos-1 || NULL == p->pnext)
+    {
+        return false;
+    }
+
+    pnode q = p->pnext;
+    *value =  q->data;
+    p->pnext = p->pnext->pnext;
+    free(q);
+    q = NULL;
+    return true;
 }
