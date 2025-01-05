@@ -19,6 +19,6 @@ long sum(long n)
 
 int main(void)
 {
-    printf("3 's total sum is: %d", f(10));
+    printf("3 's total sum is: %d", sum(10));
     return 0;
 }
